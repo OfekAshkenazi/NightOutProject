@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">NightOut</string>
+    <string name="NAME">Enter Name</string>
+    <string name="price">Enter Price</string>
+    <string name="adress">Enter address</string>
+    <string name="capacity">Enter capacity</string>
+    <string name="date">Enter date</string>
+    <string name="Time">Enter time</string>
+    <string name="description">Write something to describe your event ;)</string>
+    <string-array name="Types">
+        <item>Club</item>
+        <item>Pub</item>
+        <item>Event</item>
+    </string-array>
+    <string-array name="eventType">
+        <item>Bachelor</item>
+        <item>Private Party</item>
+        <item>Other</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="min_age">Min Age</string>
+</resources>
