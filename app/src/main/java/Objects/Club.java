@@ -8,10 +8,8 @@ public class Club {
     String name;
     String line;
     String address;
-    String publicity;
     int capacity;
-    int menAge;
-    int woAge;
+    int age;
     int price;
     int rating;
     String desc;
@@ -19,14 +17,12 @@ public class Club {
     public Club(){
 
     }
-    public Club(String Name,String Line, String Address,String Publicity,int Capacity,int MenAge,int WoAge,int Price){
+    public Club(String Name,String Line, String Address,int Capacity,int Age,int Price){
         this.name=Name;
         this.line=Line;
         this.address=Address;
-        this.publicity=Publicity;
         this.capacity=Capacity;
-        this.menAge=MenAge;
-        this.woAge=WoAge;
+        this.age=Age;
         this.price=Price;
         this.desc="";
         this.rating=0;
@@ -44,20 +40,13 @@ public class Club {
         return address;
     }
 
-    public String getPublicity() {
-        return publicity;
-    }
 
     public int getCapacity() {
         return capacity;
     }
 
-    public int getMenAge() {
-        return menAge;
-    }
-
-    public int getWoAge() {
-        return woAge;
+    public int getAge() {
+        return age;
     }
 
     public int getPrice() {
@@ -84,20 +73,12 @@ public class Club {
         this.address = address;
     }
 
-    public void setPublicity(String publicity) {
-        this.publicity = publicity;
-    }
-
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
-    public void setMenAge(int menAge) {
-        this.menAge = menAge;
-    }
-
-    public void setWoAge(int woAge) {
-        this.woAge = woAge;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public void setPrice(int price) {
