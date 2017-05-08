@@ -24,7 +24,7 @@ public class Event {
         this.capacity=Capacity;
         this.age=Age;
         this.price=Price;
-        this.desc="";
+        this.desc=" ";
     }
 
     public String getType() {

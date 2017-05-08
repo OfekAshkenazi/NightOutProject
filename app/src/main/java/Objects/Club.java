@@ -24,7 +24,7 @@ public class Club {
         this.capacity=Capacity;
         this.age=Age;
         this.price=Price;
-        this.desc="";
+        this.desc=" ";
         this.rating=0;
     }
 

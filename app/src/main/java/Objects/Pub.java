@@ -1,7 +1,5 @@
 package Objects;
 
-import android.media.Image;
-
 /**
  * Created by Ofek on 23-Apr-17.
  */
@@ -9,28 +7,25 @@ import android.media.Image;
 public class Pub {
     String name;
     String address;
-    String publicity;
+    String visitHours;
     int capacity;
-    int menAge;
-    int woAge;
-    int price;
-    Image menu;
+    int age;
+    //Image menu;        feature that need to be added.
     int rating;
+    String phone;
     String desc;
 
     public Pub(){
 
     }
-    public Pub(String Type,String Name,String Address,String Publicity,int Capacity,int MenAge,int WoAge,int Price){
+    public Pub(String Name,String Address,int Capacity,int Age,String VisitH){
         this.name=Name;
         this.address=Address;
-        this.publicity=Publicity;
         this.capacity=Capacity;
-        this.menAge=MenAge;
-        this.woAge=WoAge;
-        this.price=Price;
-        this.menu=null;
-        this.desc="";
+        this.age=Age;
+        this.visitHours=VisitH;
+        //this.menu=null;
+        this.desc=" ";
         this.rating=0;
     }
 
@@ -42,30 +37,22 @@ public class Pub {
         return address;
     }
 
-    public String getPublicity() {
-        return publicity;
-    }
-
     public int getCapacity() {
         return capacity;
     }
 
-    public int getMenAge() {
-        return menAge;
+    public int getAge() {
+        return age;
     }
 
-    public int getWoAge() {
-        return woAge;
+    public String getPhone() {
+        return phone;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public Image getMenu() {
+    /*public Image getMenu() {
         return menu;
     }
-
+*/
     public int getRating() {
         return rating;
     }
@@ -74,6 +61,9 @@ public class Pub {
         return desc;
     }
 
+    public String getVisitHours() {
+        return visitHours;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -83,30 +73,22 @@ public class Pub {
         this.address = address;
     }
 
-    public void setPublicity(String publicity) {
-        this.publicity = publicity;
-    }
-
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
-    public void setMenAge(int menAge) {
-        this.menAge = menAge;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public void setWoAge(int woAge) {
-        this.woAge = woAge;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public void setMenu(Image menu) {
+   /* public void setMenu(Image menu) {
         this.menu = menu;
     }
-
+*/
     public void setRating(int rating) {
         this.rating = rating;
     }
@@ -115,5 +97,7 @@ public class Pub {
         this.desc = desc;
     }
 
+    public void setVisitHours(String visitHours) {
 
+    }
 }

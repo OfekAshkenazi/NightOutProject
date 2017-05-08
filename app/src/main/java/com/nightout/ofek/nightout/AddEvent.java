@@ -49,7 +49,7 @@ public class AddEvent extends Fragment {
                 age = (EditText) view.findViewById(R.id.age);
                 create = (Button) view.findViewById(R.id.create);
                 database = FirebaseDatabase.getInstance();
-                myRef = database.getReference("EventList");
+                myRef = database.getReference("Events");
                 setSpinner();
                 createEvent();
                 return view;
@@ -72,11 +72,12 @@ public class AddEvent extends Fragment {
                 time.setText("");
                 age.setText("");
         }
-        public boolean isFullyEntered(){
-                return (name.getText()!=null&&price.getText()!=null&&address.getText()!=null&&capacity.getText()!=null&&date.getText()!=null&&time.getText()!=null&&age.getText()!=null);
-        }
-        public boolean isDescribed(){
-                return (desc.getText()!=null);
+        public boolean isFullyEntered() {
+            if (name.getText().toString().matches("")==false && price.getText().toString().matches("")==false && address.getText().toString().matches("")==false
+                    && capacity.getText().toString().matches("")==false && date.getText().toString().matches("")==false && time.getText().toString().matches("")==false && age.getText().toString().matches("")==false)
+                return true;
+            else                                                            //return true only if all boxes are registered. otherwise return false
+                return false;
         }
         public void createEvent(){
                 create.setOnClickListener(new View.OnClickListener() {
@@ -89,24 +90,22 @@ public class AddEvent extends Fragment {
                                         Type = type.getSelectedItem().toString();
                                         Name = name.getText().toString();
                                         Address = address.getText().toString();
-                                        Date = date.getText().toString();
+                                        Date = date.getText().toString();                                                  //insert all text boxes to 'event'. push event to firebase
                                         Time = time.getText().toString();
                                         Age = Integer.parseInt(age.getText().toString());
                                         Price = Integer.parseInt(price.getText().toString());
                                         Capacity = Integer.parseInt(capacity.getText().toString());
                                         event = new Event(Type, Name, Address, Date, Capacity, Age, Price);
-                                        if (isDescribed()==true) {
+                                        if (desc.getText().toString().matches("")==false) {
                                                 Desc = desc.getText().toString();
                                                 event.setDesc(Desc);
                                         }
-                                        myRef.setValue(event);
+                                        myRef.child(Name).setValue(event);
                                         clearEditTexts();
                                 }
                                 else {
-                                        Toast.makeText(getContext(),"please make sure you enterd all parameters",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(),"please make sure you entered all parameters",Toast.LENGTH_LONG).show();
                                 }
-
-
                         }
                 });
         }

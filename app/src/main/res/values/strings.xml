@@ -23,4 +23,7 @@
     <string name="min_age">Min Age</string>
     <string name="line">Line</string>
     <string name="write_somthing_to_describe_your_club">Write somthing to describe your club ;)</string>
+    <string name="phone_number">phone number</string>
+    <string name="opens_at">Opens At-</string>
+    <string name="pub_desc">Write something to describe your Pub/Bar</string>
 </resources>

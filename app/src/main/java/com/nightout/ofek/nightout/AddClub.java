@@ -49,7 +49,7 @@ public class AddClub extends Fragment {
         line = (EditText) view.findViewById(R.id.line);
         create = (Button) view.findViewById(R.id.create);
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("ClubList");
+        myRef = database.getReference("Clubs");
 
 
         return view;
@@ -59,12 +59,16 @@ public class AddClub extends Fragment {
         price.setText("");
         address.setText("");
         capacity.setText("");
-        desc.setText("");
+        desc.setText("");               //clear all text boxes
         age.setText("");
         line.setText("");
     }
     public boolean isFullyEntered(){
-        return (name.getText()!=null&&price.getText()!=null&&address.getText()!=null&&capacity.getText()!=null&&age.getText()!=null&&line.getText()!=null);
+        if (name.getText().toString().matches("")==false && price.getText().toString().matches("")==false && address.getText().toString().matches("")==false
+                && capacity.getText().toString().matches("")==false && line.getText().toString().matches("")==false && age.getText().toString().matches("")==false)
+            return true;                                                                                                                        //return true only if all boxes are registered
+        else
+            return false;
     }
 
     public void createClub(){
@@ -73,21 +77,20 @@ public class AddClub extends Fragment {
             public void onClick(View v) {
                 String Line,Name, Address, Date, Time, Desc;
                 Club club;
-                club=new Club();
                 int Price, Capacity,Age;
                 if (isFullyEntered()){
                     Name=name.getText().toString();
                     Address=address.getText().toString();
                     Line=line.getText().toString();
                     Price = Integer.parseInt(price.getText().toString());
-                    Capacity = Integer.parseInt(capacity.getText().toString());
+                    Capacity = Integer.parseInt(capacity.getText().toString());                                            //insert all text boxes to 'club'. push 'club' to firebase
                     Age = Integer.parseInt(age.getText().toString());
                     Club club1=new Club(Name,Line,Address,Capacity,Age,Price);
-                    if (desc.getText()!=null){
+                    if (desc.getText().toString().matches("")==false){
                         Desc=desc.getText().toString();
-                        club.setDesc(Desc);
+                        club1.setDesc(Desc);
                     }
-                    myRef.setValue(club);
+                    myRef.child(Name).setValue(club1);
                     clearEditTexts();
                 }
                 else
