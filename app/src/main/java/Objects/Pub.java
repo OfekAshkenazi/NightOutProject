@@ -62,7 +62,7 @@ public class Pub {
     }
 
     public String getVisitHours() {
-        return visitHours;
+        return this.visitHours;
     }
 
     public void setName(String name) {
@@ -98,6 +98,6 @@ public class Pub {
     }
 
     public void setVisitHours(String visitHours) {
-
+        this.visitHours=visitHours;
     }
 }
