@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nightout.ofek.nightout.ShowSelectedPub">
+
+    <RelativeLayout
+        android:id="@+id/searchPubFragLay"
+        android:layout_width="384dp"
+        android:layout_height="568dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/ageTextV"
+            android:layout_marginTop="38dp"
+            android:text="Name"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/addressTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/nameTextView"
+            android:layout_below="@+id/nameTextView"
+            android:layout_marginTop="18dp"
+            android:text="address"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/visitHTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignStart="@+id/addressTextView"
+            android:layout_below="@+id/addressTextView"
+            android:layout_marginTop="13dp"
+            android:inputType="textMultiLine"
+            android:text="Visit Hours"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/capTextV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/visitHTextView"
+            android:layout_below="@+id/visitHTextView"
+            android:layout_marginTop="11dp"
+            android:text="Capacity"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/ageTextV"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/phoneNumTextView"
+            android:layout_below="@+id/capTextV"
+            android:layout_marginTop="19dp"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/phoneNumTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/descriptionTextView"
+            android:layout_below="@+id/ageTextV"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="14dp"
+            android:text="Phone Number"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phoneNumTextView"
+            android:layout_marginEnd="29dp"
+            android:layout_marginTop="49dp"
+            android:layout_toStartOf="@+id/ratingBarPubF"
+            android:inputType="textMultiLine"
+            android:text="Description"
+            android:textSize="25sp" />
+
+        <RatingBar
+            android:id="@+id/ratingBarPubF"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/nameTextView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/visitHTextView"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/addressTextView"
+            android:text="Address:"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/nameTextView"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/nameTextView"
+            android:text="Name:"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/capTextV"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/visitHTextView"
+            android:layout_toStartOf="@+id/visitHTextView"
+            android:text="Opening Hours:"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ageTextV"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/capTextV"
+            android:text="Capacity:"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/phoneNumTextView"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/ageTextV"
+            android:text="Age:"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/phoneNumTextView"
+            android:layout_toStartOf="@+id/phoneNumTextView"
+            android:text="Phone Number:"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/addressTextView"
+            android:layout_alignTop="@+id/ageTextV"
+            android:layout_toEndOf="@+id/ageTextV"
+            android:text="+"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

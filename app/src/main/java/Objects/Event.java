@@ -1,9 +1,12 @@
 package Objects;
 
+import java.io.Serializable;
+
 /**
  * Created by Ofek on 23-Apr-17.
  */
-public class Event {
+@SuppressWarnings("serial")
+public class Event implements Serializable {
     String type;
     String name;
     String address;

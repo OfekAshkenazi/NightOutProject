@@ -1,10 +1,12 @@
 package Objects;
 
+import java.io.Serializable;
+
 /**
  * Created by Ofek on 23-Apr-17.
  */
-
-public class Pub {
+@SuppressWarnings("serial")
+public class Pub implements Serializable {
     String name;
     String address;
     String visitHours;
@@ -18,7 +20,7 @@ public class Pub {
     public Pub(){
 
     }
-    public Pub(String Name,String Address,int Capacity,int Age,String VisitH){
+    public Pub(String Name,String Address,int Capacity,int Age,String VisitH,String Phone){
         this.name=Name;
         this.address=Address;
         this.capacity=Capacity;
@@ -27,6 +29,7 @@ public class Pub {
         //this.menu=null;
         this.desc=" ";
         this.rating=0;
+        this.phone=Phone;
     }
 
     public String getName() {

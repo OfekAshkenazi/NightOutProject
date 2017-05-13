@@ -69,7 +69,7 @@ public class AddPub extends Fragment {
                     VisitH=visitH.getText().toString();
                     Capacity = Integer.parseInt(capacity.getText().toString());
                     Phone=phone.getText().toString();
-                    pub = new Pub(Name,Address,Capacity,Age,VisitH);            //insert all text boxes to 'pub'. push 'pub' to firebase
+                    pub = new Pub(Name,Address,Capacity,Age,VisitH,Phone);            //insert all text boxes to 'pub'. push 'pub' to firebase
                     if (desc.getText().toString().matches("")==false) {
                         Desc = desc.getText().toString();
                         pub.setDesc(Desc);

@@ -1,13 +1,17 @@
 package com.nightout.ofek.nightout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,7 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.List;
 
 import Objects.Pub;
 
@@ -25,9 +30,12 @@ public class SearchActivity extends AppCompatActivity {
     Button ok;
     int counter;
     TextView textView;
-    Stack<String> pubsNames;
+    Context context;
+    List<Pub> pubsList;
+    List<String> pubsNames;
     ListView namesList;
     DatabaseReference MyRef;
+    public ValueEventListener listener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,29 +45,41 @@ public class SearchActivity extends AppCompatActivity {
         ok=(Button) findViewById(R.id.ok_button);
         namesList=(ListView) findViewById(R.id.NamesList);
         MyRef= FirebaseDatabase.getInstance().getReference("Pubs");
-        pubsNames=new Stack<>();
+        pubsNames=new LinkedList<>();
+        pubsList=new LinkedList<>();
         textView=(TextView)findViewById(R.id.textView);
         setPubsList();
         names=new String[counter];
         setSpinner(this);
+        context=this;
+        namesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String text = ((TextView)view).getText().toString();// second method
+                Intent intent=new Intent(context,ShowSelectedPub.class);
+                Pub pub=findPubByName(text);
+                intent.putExtra("pub",pub);
+                startActivity(intent);
+            }
+        });
     }
     private void setPubsList(){
-        counter=0;
-        MyRef.addValueEventListener(new ValueEventListener() {
+        listener=new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    pubsNames.push(postSnapshot.getValue(Pub.class).getName());
-                    counter++;
-                    setListView();
+                    pubsNames.add(postSnapshot.getValue(Pub.class).getName());
+                    pubsList.add(postSnapshot.getValue(Pub.class));
                 }
-                textView.setText("Snap Loaded");
+
+                setListView();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                textView.setText("database error");
+                Toast toast=Toast.makeText(context,"Snapshot Error Number 1",Toast.LENGTH_LONG);
             }
-        });
+        };
+        MyRef.addListenerForSingleValueEvent(listener);
 
     }
     public void setSpinner(Context context) {
@@ -67,26 +87,20 @@ public class SearchActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
-  /*  public void
-  setDefaultFragment(){
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        SearchBar searchBar=new SearchBar();
-        fragmentTransaction.add(R.id.frag_container1,searchBar);
-        fragmentTransaction.commit();
-    }*/
+
     private void setListView(){
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,pubsNames);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         namesList.setAdapter(adapter);
     }
-    /*private void toArray(){
-        for (int i=0;i<names.length;i++){
-            names[i] = pubsNames.pop().getName();
-            textView.setText("casted to array");
+    public Pub findPubByName(String pubName){
+        for (int i=0;i<pubsList.size();i++){
+            if (pubsList.get(i).getName().equals(pubName)) {
+                return pubsList.get(i);
+            }
         }
+        return null;
     }
-    */
 }
 
 

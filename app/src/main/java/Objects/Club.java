@@ -1,10 +1,12 @@
 package Objects;
 
+import java.io.Serializable;
+
 /**
  * Created by Ofek on 23-Apr-17.
  */
-
-public class Club {
+@SuppressWarnings("serial")
+public class Club implements Serializable {
     String name;
     String line;
     String address;
