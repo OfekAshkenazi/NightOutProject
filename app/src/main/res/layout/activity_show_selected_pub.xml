@@ -85,13 +85,13 @@
             android:layout_below="@+id/phoneNumTextView"
             android:layout_marginEnd="29dp"
             android:layout_marginTop="49dp"
-            android:layout_toStartOf="@+id/ratingBarPubF"
+            android:layout_toStartOf="@+id/ratingbarClub"
             android:inputType="textMultiLine"
             android:text="Description"
             android:textSize="25sp" />
 
         <RatingBar
-            android:id="@+id/ratingBarPubF"
+            android:id="@+id/ratingbarClub"
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

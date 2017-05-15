@@ -14,8 +14,6 @@ import Objects.Pub;
 public class ShowSelectedPub extends AppCompatActivity {
     TextView name,address,visitH,capacity,age,phone,desc;
     RatingBar ratingBar;
-    Context context;
-    SearchActivity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +25,7 @@ public class ShowSelectedPub extends AppCompatActivity {
         age=(TextView) findViewById(R.id.ageTextV);
         phone=(TextView) findViewById(R.id.phoneNumTextView);
         desc=(TextView) findViewById(R.id.descriptionTextView);
-        ratingBar=(RatingBar) findViewById(R.id.ratingBarPubF);
-        activity=new SearchActivity();
+        ratingBar=(RatingBar) findViewById(R.id.ratingbarPub);
         Pub pub=(Pub) getIntent().getExtras().get("pub");
         getIntent().removeExtra("pub");
         setTextViews(pub);
