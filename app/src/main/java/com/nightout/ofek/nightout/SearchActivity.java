@@ -22,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import Objects.Club;
+import Objects.Event;
 import Objects.Pub;
 
 public class SearchActivity extends AppCompatActivity {
@@ -33,6 +35,10 @@ public class SearchActivity extends AppCompatActivity {
     Context context;
     List<Pub> pubsList;
     List<String> pubsNames;
+    List<Event> eventsList;
+    List<String> eventsNames;
+    List<Club> clubsList;
+    List<String> clubsNames;
     ListView namesList;
     DatabaseReference MyRef;
     public ValueEventListener listener;
@@ -44,26 +50,78 @@ public class SearchActivity extends AppCompatActivity {
         Types=new String[]{"Club","Event","Pub/Bar"};
         ok=(Button) findViewById(R.id.ok_button);
         namesList=(ListView) findViewById(R.id.NamesList);
-        MyRef= FirebaseDatabase.getInstance().getReference("Pubs");
         pubsNames=new LinkedList<>();
         pubsList=new LinkedList<>();
+        Pub pub=new Pub();
         textView=(TextView)findViewById(R.id.textView);
-        setPubsList();
         names=new String[counter];
         setSpinner(this);
         context=this;
-        namesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String text = ((TextView)view).getText().toString();// second method
-                Intent intent=new Intent(context,ShowSelectedPub.class);
-                Pub pub=findPubByName(text);
-                intent.putExtra("pub",pub);
-                startActivity(intent);
+            public void onClick(View v) {
+                if (spinner.getSelectedItem().toString().equals("Event")){
+                    setEventList();
+                    namesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            startShowObjects("Event",view);
+                        }
+                    });
+                }
+                else{
+                    if (spinner.getSelectedItem().toString().equals("Club")){
+                        setClubList();
+                        /*namesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                startShowObjects("Club",view);
+                            }
+                        });*/
+                    }
+                    else {
+                        setPubsList();
+                        namesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                startShowObjects("Pub",view);
+                            }
+                        });
+                    }
+                }
             }
         });
     }
+    private void startShowObjects(String className,View view){
+        String text = ((TextView)view).getText().toString();// second method
+        if (className.equals("Pub")) {
+            Intent intent=new Intent(context,ShowSelectedPub.class);
+            Pub pub = findPubByName(text, pubsList);
+            intent.putExtra("pub", pub);
+            startActivity(intent);
+        }
+        else {
+            if (className.equals("Event")){
+                Intent intent=new Intent(context,ShowSelectedEvent.class);
+                Event event = findEventByName(text, eventsList);
+                intent.putExtra("event", event);
+                startActivity(intent);
+            }
+            else {
+                Intent intent=new Intent(context,ShowSelectedClub.class);
+                Club club = findClubByName(text, clubsList);
+                intent.putExtra("club", club);
+                startActivity(intent);
+            }
+        }
+
+    }
     private void setPubsList(){
+        MyRef= FirebaseDatabase.getInstance().getReference("Pubs");
+        if (!pubsList.isEmpty()||!pubsNames.isEmpty()) {
+            pubsNames.clear();
+            pubsList.clear();
+        }
         listener=new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -72,7 +130,55 @@ public class SearchActivity extends AppCompatActivity {
                     pubsList.add(postSnapshot.getValue(Pub.class));
                 }
 
-                setListView();
+                setListView(pubsNames);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast toast=Toast.makeText(context,"Snapshot Error Number 1",Toast.LENGTH_LONG);
+            }
+        };
+        MyRef.addListenerForSingleValueEvent(listener);
+
+    }
+    private void setEventList(){
+        MyRef= FirebaseDatabase.getInstance().getReference("Events");
+        if (!eventsList.isEmpty()||!eventsNames.isEmpty()) {
+            eventsList.clear();
+            eventsNames.clear();
+        }
+        listener=new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    eventsNames.add(postSnapshot.getValue(Event.class).getName());
+                    eventsList.add(postSnapshot.getValue(Event.class));
+                }
+
+                setListView(eventsNames);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast toast=Toast.makeText(context,"Snapshot Error Number 1",Toast.LENGTH_LONG);
+            }
+        };
+        MyRef.addListenerForSingleValueEvent(listener);
+
+    }
+    private void setClubList(){
+        MyRef= FirebaseDatabase.getInstance().getReference("Clubs");
+        if (!clubsList.isEmpty()||!clubsNames.isEmpty()) {
+            clubsList.clear();
+            clubsNames.clear();
+        }
+        listener=new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    clubsNames.add(postSnapshot.getValue(Club.class).getName());
+                    clubsList.add(postSnapshot.getValue(Club.class));
+                }
+
+                setListView(eventsNames);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -88,15 +194,31 @@ public class SearchActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
-    private void setListView(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,pubsNames);
+    private void setListView(List<String> names){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,names);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         namesList.setAdapter(adapter);
     }
-    public Pub findPubByName(String pubName){
-        for (int i=0;i<pubsList.size();i++){
-            if (pubsList.get(i).getName().equals(pubName)) {
-                return pubsList.get(i);
+    public Pub findPubByName(String pubName,List<Pub> pubsList1){
+        for (int i=0;i<pubsList1.size();i++){
+            if (pubsList1.get(i).getName().equals(pubName)) {
+                return pubsList1.get(i);
+            }
+        }
+        return null;
+    }
+    public Event findEventByName(String pubName,List<Event> eventList1){
+        for (int i=0;i<eventList1.size();i++){
+            if (eventList1.get(i).getName().equals(pubName)) {
+                return eventList1.get(i);
+            }
+        }
+        return null;
+    }
+    public Club findClubByName(String pubName,List<Club> clubsList1){
+        for (int i=0;i<clubsList1.size();i++){
+            if (clubsList1.get(i).getName().equals(pubName)) {
+                return clubsList1.get(i);
             }
         }
         return null;

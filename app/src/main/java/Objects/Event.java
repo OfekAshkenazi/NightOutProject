@@ -50,7 +50,7 @@ public class Event implements Serializable {
         return capacity;
     }
 
-    public int Age() {
+    public int getAge() {
         return this.age;
     }
 
