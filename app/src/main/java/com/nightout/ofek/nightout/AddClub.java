@@ -50,7 +50,7 @@ public class AddClub extends Fragment {
         create = (Button) view.findViewById(R.id.create);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Clubs");
-
+        createClub();
 
         return view;
     }

@@ -23,6 +23,7 @@ public class ShowSelectedClub extends AppCompatActivity {
         desc = (TextView) findViewById(R.id.descriptionTextVC);
         ratingBar = (RatingBar) findViewById(R.id.ratingbarClub);
         Club club = (Club) getIntent().getExtras().get("club");
+        setTextViews(club);
         getIntent().removeExtra("club");
     }
     public void setTextViews(Club club){
@@ -33,6 +34,6 @@ public class ShowSelectedClub extends AppCompatActivity {
         age.setText(Integer.toString(club.getAge()));
         price.setText(Integer.toString(club.getPrice()));
         desc.setText(club.getDesc());
-        ratingBar.setNumStars(club.getRating());
+        //ratingBar.setNumStars(club.getRating());
     }
 }

@@ -40,7 +40,7 @@ public class SearchActivity extends AppCompatActivity {
     List<Club> clubsList;
     List<String> clubsNames;
     ListView namesList;
-    DatabaseReference MyRef;
+    DatabaseReference EventRef,ClubRef,PubRef;
     public ValueEventListener listener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,10 @@ public class SearchActivity extends AppCompatActivity {
         namesList=(ListView) findViewById(R.id.NamesList);
         pubsNames=new LinkedList<>();
         pubsList=new LinkedList<>();
+        clubsList=new LinkedList<>();
+        clubsNames=new LinkedList<>();
+        eventsList=new LinkedList<>();
+        eventsNames=new LinkedList<>();
         Pub pub=new Pub();
         textView=(TextView)findViewById(R.id.textView);
         names=new String[counter];
@@ -60,34 +64,32 @@ public class SearchActivity extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (spinner.getSelectedItem().toString().equals("Event")){
+                if (spinner.getSelectedItem().equals("Event")) {
                     setEventList();
                     namesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            startShowObjects("Event",view);
+                            startShowObjects("Event", view);
                         }
                     });
                 }
-                else{
-                    if (spinner.getSelectedItem().toString().equals("Club")){
-                        setClubList();
-                        /*namesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                startShowObjects("Club",view);
-                            }
-                        });*/
-                    }
-                    else {
-                        setPubsList();
-                        namesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                startShowObjects("Pub",view);
-                            }
-                        });
-                    }
+                if (spinner.getSelectedItem().toString().equals("Club")) {
+                    setClubList();
+                    namesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            startShowObjects("Club", view);
+                        }
+                    });
+                }
+                if (spinner.getSelectedItem().toString().equals("Pub/Bar")){
+                    setPubsList();
+                    namesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            startShowObjects("Pub", view);
+                        }
+                    });
                 }
             }
         });
@@ -100,29 +102,26 @@ public class SearchActivity extends AppCompatActivity {
             intent.putExtra("pub", pub);
             startActivity(intent);
         }
-        else {
-            if (className.equals("Event")){
+        if (className.equals("Event")){
                 Intent intent=new Intent(context,ShowSelectedEvent.class);
                 Event event = findEventByName(text, eventsList);
                 intent.putExtra("event", event);
                 startActivity(intent);
             }
-            else {
+        if (className.equals("Club")){
                 Intent intent=new Intent(context,ShowSelectedClub.class);
                 Club club = findClubByName(text, clubsList);
                 intent.putExtra("club", club);
                 startActivity(intent);
             }
-        }
-
     }
     private void setPubsList(){
-        MyRef= FirebaseDatabase.getInstance().getReference("Pubs");
+        PubRef= FirebaseDatabase.getInstance().getReference("Pubs");
         if (!pubsList.isEmpty()||!pubsNames.isEmpty()) {
             pubsNames.clear();
             pubsList.clear();
         }
-        listener=new ValueEventListener() {
+        PubRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -136,17 +135,16 @@ public class SearchActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
                 Toast toast=Toast.makeText(context,"Snapshot Error Number 1",Toast.LENGTH_LONG);
             }
-        };
-        MyRef.addListenerForSingleValueEvent(listener);
+        });
 
     }
     private void setEventList(){
-        MyRef= FirebaseDatabase.getInstance().getReference("Events");
+        EventRef= FirebaseDatabase.getInstance().getReference("Events");
         if (!eventsList.isEmpty()||!eventsNames.isEmpty()) {
             eventsList.clear();
             eventsNames.clear();
         }
-        listener=new ValueEventListener() {
+        EventRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -160,17 +158,16 @@ public class SearchActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
                 Toast toast=Toast.makeText(context,"Snapshot Error Number 1",Toast.LENGTH_LONG);
             }
-        };
-        MyRef.addListenerForSingleValueEvent(listener);
+        });
 
     }
     private void setClubList(){
-        MyRef= FirebaseDatabase.getInstance().getReference("Clubs");
+        ClubRef= FirebaseDatabase.getInstance().getReference("Clubs");
         if (!clubsList.isEmpty()||!clubsNames.isEmpty()) {
             clubsList.clear();
             clubsNames.clear();
         }
-        listener=new ValueEventListener() {
+        ClubRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -178,14 +175,13 @@ public class SearchActivity extends AppCompatActivity {
                     clubsList.add(postSnapshot.getValue(Club.class));
                 }
 
-                setListView(eventsNames);
+                setListView(clubsNames);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast toast=Toast.makeText(context,"Snapshot Error Number 1",Toast.LENGTH_LONG);
             }
-        };
-        MyRef.addListenerForSingleValueEvent(listener);
+        });
 
     }
     public void setSpinner(Context context) {

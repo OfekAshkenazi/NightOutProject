@@ -47,6 +47,6 @@ public class ShowSelectedPub extends AppCompatActivity {
         age.setText(Integer.toString(pub.getAge()));
         phone.setText(pub.getPhone());
         desc.setText(pub.getDesc());
-        ratingBar.setNumStars(pub.getRating());
+        //ratingBar.setNumStars(pub.getRating());
     }
 }
